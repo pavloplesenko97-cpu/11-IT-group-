@@ -512,4 +512,100 @@
             const newRoom = prompt("Кабінет/Корпус:", item.room);
 
             data[currentDay][idx].subject = newSubj || item.subject;
+            data[currentDay][idx].teacher = newTeach || item.teacher;
+            data[currentDay][idx].room = newRoom || item.room;
+
+            saveScheduleData(data);
+            renderSchedule();
+        }
+
+        function deletePair(idx) {
+            if (confirm("Видалити цю пару з розкладу?")) {
+                const data = getSchedule();
+                data[currentDay].splice(idx, 1);
+                saveScheduleData(data);
+                renderSchedule();
+            }
+        }
+
+        function addNewPair() {
+            const data = getSchedule();
+            const num = (data[currentDay].length + 1);
+            data[currentDay].push({
+                pair: num,
+                time: "08:30 - 09:50",
+                subject: "Нова пара",
+                teacher: "Викладач",
+                room: "Дубенська",
+                type: "Лекція",
+                badgeClass: "badge-lec"
+            });
+            saveScheduleData(data);
+            renderSchedule();
+        }
+
+        function exportData() {
+            const data = {
+                student: getStudentData(),
+                schedule: getSchedule(),
+                teachers: getTeachersData()
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type : 'application/json'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'schedule_11it.json';
+            a.click();
+        }
+
+        function resetToDefault() {
+            if (confirm("Скинути все до початкового стану?")) {
+                localStorage.removeItem('schedule_11it_v3');
+                localStorage.removeItem('teachers_11it_v3');
+                localStorage.removeItem('student_11it');
+                renderStudent();
+                renderTeachers();
+                renderSchedule();
+            }
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const hrs = now.getHours();
+            const mins = now.getMinutes();
+            const timeVal = hrs * 60 + mins;
+
+            const timerElem = document.getElementById('live-timer');
             
+            const p1Start = 8 * 60 + 30, p1End = 9 * 60 + 50;
+            const p2Start = 10 * 60, p2End = 11 * 60 + 20;
+            const p3Start = 11 * 60 + 30, p3End = 12 * 60 + 50;
+
+            if (timeVal >= p1Start && timeVal <= p1End) {
+                timerElem.innerHTML = `🟢 Зараз іде <strong>1 пара</strong> (до кінця: ${p1End - timeVal} хв)`;
+            } else if (timeVal >= p2Start && timeVal <= p2End) {
+                timerElem.innerHTML = `🟢 Зараз іде <strong>2 пара</strong> (до кінця: ${p2End - timeVal} хв)`;
+            } else if (timeVal >= p3Start && timeVal <= p3End) {
+                timerElem.innerHTML = `🟢 Зараз іде <strong>3 пара</strong> (до кінця: ${p3End - timeVal} хв)`;
+            } else if (timeVal < p1Start) {
+                timerElem.innerHTML = `🔔 До початку 1 пари залишилося ${p1Start - timeVal} хв`;
+            } else {
+                timerElem.innerHTML = `⏸️ Пари на сьогодні завершилися`;
+            }
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        }
+
+        const dayMap = ['sat', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+        const todayIdx = new Date().getDay();
+        selectDay(dayMap[todayIdx]);
+        renderStudent();
+        renderTeachers();
+
+        setInterval(updateTimer, 10000);
+        updateTimer();
+    </script>
+</body>
+</html>
