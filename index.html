@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Група 11-ІТ — ВСП «РФК НУБіП України»</title>
+    <title>Розклад та Викладачі групи 11-ІТ — РФК НУБіП</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -41,101 +41,353 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.5; padding-bottom: 2rem; transition: background-color 0.3s; }
-        header { background: linear-gradient(135deg, var(--primary), #111827); color: white; padding: 2rem 1rem; text-align: center; position: relative; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        header h1 { font-size: 1.7rem; font-weight: 700; margin-bottom: 0.25rem; }
-        header p { font-size: 0.95rem; opacity: 0.9; }
-        .theme-toggle { position: absolute; top: 1rem; right: 1rem; background: rgba(255, 255, 255, 0.15); border: none; color: white; padding: 0.5rem 0.8rem; border-radius: 20px; cursor: pointer; font-size: 0.85rem; }
-        .container { max-width: 900px; margin: 0 auto; padding: 1rem; }
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
-        @media(max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
-        .info-card { background: var(--bg-card); border-left: 4px solid var(--primary-light); padding: 1rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-size: 0.9rem; }
-        .info-card h3 { font-size: 0.95rem; margin-bottom: 0.3rem; color: var(--primary-light); }
-        .day-buttons { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
-        .day-btn { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; font-weight: 500; white-space: nowrap; }
+        
+        header { 
+            background: linear-gradient(135deg, var(--primary), #0f172a); 
+            color: white; 
+            padding: 2.5rem 1rem 1.5rem; 
+            text-align: center; 
+            position: relative; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+        }
+        header h1 { font-size: 1.8rem; font-weight: 700; }
+        header p { font-size: 0.95rem; opacity: 0.9; margin-top: 0.2rem; }
+        
+        .header-btns { position: absolute; top: 1rem; right: 1rem; display: flex; gap: 0.5rem; }
+        .icon-btn { background: rgba(255, 255, 255, 0.2); border: none; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; cursor: pointer; font-size: 0.85rem; backdrop-filter: blur(5px); transition: 0.2s; }
+        .icon-btn:hover { background: rgba(255, 255, 255, 0.3); }
+
+        .container { max-width: 950px; margin: 0 auto; padding: 1rem; }
+        
+        .section-title { font-size: 1.3rem; font-weight: 700; margin: 1.5rem 0 1rem; color: var(--primary-light); display: flex; justify-content: space-between; align-items: center; }
+
+        /* Стилі для слайдера викладачів */
+        .teachers-wrapper { position: relative; display: flex; align-items: center; margin-bottom: 2rem; }
+        .teachers-slider { 
+            display: flex; 
+            gap: 1rem; 
+            overflow-x: auto; 
+            scroll-behavior: smooth; 
+            padding: 0.5rem 0;
+            scrollbar-width: none; 
+        }
+        .teachers-slider::-webkit-scrollbar { display: none; }
+        
+        .teacher-card {
+            min-width: 200px;
+            max-width: 200px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+        .teacher-card:hover { transform: translateY(-4px); }
+        .teacher-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 0.8rem;
+            border: 2px solid var(--primary-light);
+            background: var(--border-color);
+        }
+        .teacher-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; }
+        .teacher-subject { font-size: 0.8rem; color: var(--text-muted); }
+        
+        .slider-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .status-bar {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--accent);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .controls-panel { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .search-input { flex: 1; min-width: 200px; padding: 0.6rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-main); outline: none; }
+
+        .day-buttons { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .day-btn { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; font-weight: 500; white-space: nowrap; transition: 0.2s; }
         .day-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .schedule-card { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 1rem; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: grid; grid-template-columns: 90px 1fr auto; gap: 1rem; align-items: center; }
-        @media (max-width: 600px) { .schedule-card { grid-template-columns: 1fr; } }
+
+        .schedule-card { 
+            background: var(--bg-card); 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color); 
+            margin-bottom: 1rem; 
+            padding: 1.25rem; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+            display: grid; 
+            grid-template-columns: 100px 1fr auto; 
+            gap: 1rem; 
+            align-items: center;
+        }
+        @media (max-width: 650px) { .schedule-card { grid-template-columns: 1fr; } }
+
         .time-box { text-align: center; border-right: 2px solid var(--border-color); padding-right: 0.75rem; }
-        @media (max-width: 600px) { .time-box { border-right: none; border-bottom: 1px solid var(--border-color); text-align: left; padding-bottom: 0.5rem; display: flex; justify-content: space-between; } }
+        @media (max-width: 650px) { .time-box { border-right: none; border-bottom: 1px solid var(--border-color); text-align: left; padding-bottom: 0.5rem; display: flex; justify-content: space-between; } }
+        
         .pair-num { font-size: 1.1rem; font-weight: 700; color: var(--primary-light); }
         .pair-time { font-size: 0.75rem; color: var(--text-muted); }
-        .subject-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.25rem; }
-        .details { font-size: 0.85rem; color: var(--text-muted); display: flex; gap: 1rem; flex-wrap: wrap; }
-        .badge { font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; height: fit-content; }
+
+        .subject-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
+        .details { font-size: 0.85rem; color: var(--text-muted); display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+        .badge { font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 600; }
         .badge-lec { background: var(--badge-lec); color: var(--badge-lec-text); }
         .badge-lab { background: var(--badge-lab); color: var(--badge-lab-text); }
         .badge-prac { background: var(--badge-prac); color: var(--badge-prac-text); }
-        .footer-links { margin-top: 2rem; display: flex; justify-content: center; gap: 1.5rem; font-size: 0.9rem; }
-        .footer-links a { color: var(--primary-light); text-decoration: none; }
+
+        .edit-controls { display: none; gap: 0.5rem; margin-top: 0.5rem; }
+        .is-editing .edit-controls { display: flex; }
+        .btn-sm { padding: 0.3rem 0.6rem; font-size: 0.75rem; border-radius: 4px; border: none; cursor: pointer; }
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-edit { background: #3b82f6; color: white; }
+
+        .add-pair-btn {
+            display: none;
+            width: 100%;
+            padding: 0.8rem;
+            background: transparent;
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .is-editing .add-pair-btn { display: block; }
+
+        footer { text-align: center; margin-top: 3rem; font-size: 0.85rem; color: var(--text-muted); }
+        footer a { color: var(--primary-light); text-decoration: none; }
     </style>
 </head>
 <body>
 
     <header>
-        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-        <h1>Група 11-ІТ — Комп'ютерні науки</h1>
-        <p>ВСП «Рівненський фаховий коледж НУБіП України»</p>
+        <div class="header-btns">
+            <button class="icon-btn" onclick="toggleEditMode()">✏️ Редагувати</button>
+            <button class="icon-btn" onclick="toggleTheme()">🌙 Тема</button>
+        </div>
+        <h1>Група 11-ІТ — РФК НУБіП</h1>
+        <p>Навчальний корпус: вул. Дубенська | Спеціальність: Комп'ютерні науки</p>
     </header>
 
     <div class="container">
-        <div class="info-grid">
-            <div class="info-card">
-                <h3>📍 Локація</h3>
-                <p>Навчальний корпус на вул. Дубенській, м. Рівне</p>
-            </div>
-            <div class="info-card">
-                <h3>🔔 Розклад дзвінків (І зміна)</h3>
-                <p>І пара: 08:30 – 09:50<br>ІІ пара: 10:00 – 11:20<br>ІІІ пара: 11:30 – 12:50</p>
-            </div>
+        <!-- Слайдер викладачів -->
+        <div class="section-title">
+            <span>👨‍🏫 Наші викладачі</span>
+            <button class="icon-btn is-editing" style="background: var(--primary);" onclick="addTeacher()">➕ Додати викладача</button>
+        </div>
+        
+        <div class="teachers-wrapper">
+            <button class="slider-btn" onclick="slideTeachers(-1)">‹</button>
+            <div class="teachers-slider" id="teachers-slider"></div>
+            <button class="slider-btn" onclick="slideTeachers(1)">›</button>
         </div>
 
+        <div class="section-title">📅 Розклад занять</div>
+
+        <!-- Інтерактивний виджет стану -->
+        <div class="status-bar">
+            <div id="live-timer">⏳ Завантаження стану занять...</div>
+            <div id="week-type">📅 Поточний тиждень: <strong>Чисельник</strong></div>
+        </div>
+
+        <!-- Панель пошуку -->
+        <div class="controls-panel">
+            <input type="text" id="search-input" class="search-input" placeholder="🔍 Пошук предмета чи викладача..." oninput="renderSchedule()">
+            <button class="icon-btn" style="background: var(--primary);" onclick="resetToDefault()">🔄 Скинути дані</button>
+        </div>
+
+        <!-- Кнопки днів -->
         <div class="day-buttons">
-            <button class="day-btn" onclick="showDay('mon')">Пн</button>
-            <button class="day-btn" onclick="showDay('tue')">Вт</button>
-            <button class="day-btn" onclick="showDay('wed')">Ср</button>
-            <button class="day-btn" onclick="showDay('thu')">Чт</button>
-            <button class="day-btn" onclick="showDay('fri')">Пт</button>
-            <button class="day-btn active" onclick="showDay('sat')">Субота</button>
+            <button class="day-btn" onclick="selectDay('mon')">Пон</button>
+            <button class="day-btn" onclick="selectDay('tue')">Вів</button>
+            <button class="day-btn" onclick="selectDay('wed')">Сре</button>
+            <button class="day-btn" onclick="selectDay('thu')">Чет</button>
+            <button class="day-btn" onclick="selectDay('fri')">Пят</button>
+            <button class="day-btn" onclick="selectDay('sat')">Суб (Заміни)</button>
         </div>
 
+        <!-- Контейнер розкладу -->
         <div id="schedule-container"></div>
+        <button class="add-pair-btn" onclick="addNewPair()">➕ Додати нову пару</button>
 
-        <div class="footer-links">
-            <a href="https://rfc.nubip.edu.ua/" target="_blank">Офіційний сайт РФК НУБіП</a>
-            <a href="https://rfc.nubip.edu.ua/to-a-student/lessons-schedule/" target="_blank">Сторінка розкладу коледжу</a>
-        </div>
+        <footer>
+            <p>ВСП «Рівненський фаховий коледж НУБіП України»</p>
+            <p><a href="https://rfc.nubip.edu.ua/" target="_blank">Офіційний сайт</a> | <a href="https://moodle.rfc.nubip.edu.ua/" target="_blank">Moodle</a></p>
+        </footer>
     </div>
 
     <script>
-        const scheduleData = {
-            sat: [
-                { pair: 1, time: "08:30 - 09:50", subject: "Історія України (заміна)", teacher: "Згідно розкладу", room: "вул. Дубенська", type: "Лекція", badgeClass: "badge-lec" },
-                { pair: 2, time: "10:00 - 11:20", subject: "Інформатика (заміна)", teacher: "Викладач комісії ІТ", room: "Комп. кабінет", type: "Лабораторна", badgeClass: "badge-lab" }
-            ],
+        const defaultTeachers = [
+            { name: "Стефанія Малимон", subject: "Географія", img: "https://via.placeholder.com/80?text=СМ" },
+            { name: "Викладач матем.", subject: "Алгебра / Геометрія", img: "https://via.placeholder.com/80?text=Матем" },
+            { name: "Комісія ІТ", subject: "Інформатика / Програмування", img: "https://via.placeholder.com/80?text=ІТ" },
+            { name: "Викладач історії", subject: "Історія України", img: "https://via.placeholder.com/80?text=Іст" },
+            { name: "Викладач фізики", subject: "Фізика / Астрономія", img: "https://via.placeholder.com/80?text=Фіз" }
+        ];
+
+        const defaultSchedule = {
             mon: [
-                { pair: 1, time: "08:30 - 09:50", subject: "Вища математика", teacher: "Згідно розкладу", room: "вул. Дубенська", type: "Практична", badgeClass: "badge-prac" },
-                { pair: 2, time: "10:00 - 11:20", subject: "Українська мова", teacher: "Згідно розкладу", room: "вул. Дубенська", type: "Лекція", badgeClass: "badge-lec" }
+                { pair: 1, time: "08:30 - 09:50", subject: "Математика (Алгебра)", teacher: "Викладач матем.", room: "Дубенська, каб. 21", type: "Практична", badgeClass: "badge-prac" },
+                { pair: 2, time: "10:00 - 11:20", subject: "Українська мова", teacher: "Викладач укр. мови", room: "Дубенська, каб. 14", type: "Лекція", badgeClass: "badge-lec" },
+                { pair: 3, time: "11:30 - 12:50", subject: "Фізика", teacher: "Викладач фізики", room: "Дубенська, каб. 32", type: "Лекція", badgeClass: "badge-lec" }
             ],
             tue: [
-                { pair: 1, time: "08:30 - 09:50", subject: "Фізика / Астрономія", teacher: "Згідно розкладу", room: "вул. Дубенська", type: "Лекція", badgeClass: "badge-lec" }
+                { pair: 1, time: "08:30 - 09:50", subject: "Основи програмування", teacher: "Комісія ІТ", room: "Каб. Інформатики 1", type: "Лабораторна", badgeClass: "badge-lab" },
+                { pair: 2, time: "10:00 - 11:20", subject: "Іноземна мова (Англійська)", teacher: "Викладач англ.", room: "Дубенська, каб. 18", type: "Практична", badgeClass: "badge-prac" },
+                { pair: 3, time: "11:30 - 12:50", subject: "Історія України", teacher: "Викладач історії", room: "Дубенська, каб. 25", type: "Лекція", badgeClass: "badge-lec" }
             ],
             wed: [
-                { pair: 1, time: "08:30 - 09:50", subject: "Основи програмування", teacher: "Циклова комісія", room: "вул. Дубенська", type: "Лабораторна", badgeClass: "badge-lab" }
+                { pair: 1, time: "08:30 - 09:50", subject: "Інформатика", teacher: "Комісія ІТ", room: "Каб. Інформатики 2", type: "Лабораторна", badgeClass: "badge-lab" },
+                { pair: 2, time: "10:00 - 11:20", subject: "Математика (Геометрія)", teacher: "Викладач матем.", room: "Дубенська, каб. 21", type: "Практична", badgeClass: "badge-prac" },
+                { pair: 3, time: "11:30 - 12:50", subject: "Хімія", teacher: "Викладач хімії", room: "Дубенська, каб. 11", type: "Лекція", badgeClass: "badge-lec" }
             ],
             thu: [
-                { pair: 1, time: "08:30 - 09:50", subject: "Іноземна мова", teacher: "Згідно розкладу", room: "вул. Дубенська", type: "Практична", badgeClass: "badge-prac" }
+                { pair: 1, time: "08:30 - 09:50", subject: "Зарубіжна література", teacher: "Викладач літ.", room: "Дубенська, каб. 15", type: "Лекція", badgeClass: "badge-lec" },
+                { pair: 2, time: "10:00 - 11:20", subject: "Основи програмування", teacher: "Комісія ІТ", room: "Каб. Інформатики 1", type: "Лабораторна", badgeClass: "badge-lab" },
+                { pair: 3, time: "11:30 - 12:50", subject: "Фізичне виховання", teacher: "Викладач физ-культ", room: "Спортзал", type: "Практична", badgeClass: "badge-prac" }
             ],
             fri: [
-                { pair: 1, time: "08:30 - 09:50", subject: "Фізичне виховання", teacher: "Викладач", room: "Спортзал / Дубенська", type: "Практична", badgeClass: "badge-prac" }
+                { pair: 1, time: "08:30 - 09:50", subject: "Астрономія", teacher: "Викладач фізики", room: "Дубенська, каб. 32", type: "Лекція", badgeClass: "badge-lec" },
+                { pair: 2, time: "10:00 - 11:20", subject: "Біологія і екологія", teacher: "Викладач біол.", room: "Дубенська, каб. 29", type: "Лекція", badgeClass: "badge-lec" },
+                { pair: 3, time: "11:30 - 12:50", subject: "Географія", teacher: "Стефанія Малимон", room: "Дубенська, каб. 22", type: "Практична", badgeClass: "badge-prac" }
+            ],
+            sat: [
+                { pair: 1, time: "08:30 - 09:50", subject: "Історія України (заміна)", teacher: "Викладач історії", room: "Дубенська, каб. 25", type: "Лекція", badgeClass: "badge-lec" },
+                { pair: 2, time: "10:00 - 11:20", subject: "Інформатика (заміна)", teacher: "Комісія ІТ", room: "Каб. Інформатики", type: "Лабораторна", badgeClass: "badge-lab" }
             ]
         };
 
-        function showDay(day) {
-            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+        let currentDay = 'mon';
+        let isEditMode = false;
+
+        function getTeachersData() {
+            const saved = localStorage.getItem('teachers_11it');
+            return saved ? JSON.parse(saved) : defaultTeachers;
+        }
+
+        function saveTeachersData(data) {
+            localStorage.setItem('teachers_11it', JSON.stringify(data));
+        }
+
+        function renderTeachers() {
+            const teachers = getTeachersData();
+            const slider = document.getElementById('teachers-slider');
+            slider.innerHTML = teachers.map((t, idx) => `
+                <div class="teacher-card">
+                    <img src="${t.img}" class="teacher-img" alt="${t.name}">
+                    <div class="teacher-name">${t.name}</div>
+                    <div class="teacher-subject">${t.subject}</div>
+                    <div class="edit-controls" style="justify-content:center; margin-top:0.5rem;">
+                        <button class="btn-sm btn-edit" onclick="editTeacher(${idx})">✏️</button>
+                        <button class="btn-sm btn-danger" onclick="deleteTeacher(${idx})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function slideTeachers(direction) {
+            const slider = document.getElementById('teachers-slider');
+            slider.scrollBy({ left: direction * 220, behavior: 'smooth' });
+        }
+
+        function editTeacher(idx) {
+            const teachers = getTeachersData();
+            const t = teachers[idx];
+            const name = prompt("Ім'я викладача:", t.name);
+            if (!name) return;
+            const subject = prompt("Предмет:", t.subject);
+            const img = prompt("Посилання на фото (URL):", t.img);
+
+            teachers[idx] = { name, subject: subject || t.subject, img: img || t.img };
+            saveTeachersData(teachers);
+            renderTeachers();
+        }
+
+        function deleteTeacher(idx) {
+            if (confirm("Видалити картку викладача?")) {
+                const teachers = getTeachersData();
+                teachers.splice(idx, 1);
+                saveTeachersData(teachers);
+                renderTeachers();
+            }
+        }
+
+        function addTeacher() {
+            const name = prompt("Ім'я викладача:");
+            if (!name) return;
+            const subject = prompt("Предмет:");
+            const img = prompt("Посилання на фото (URL):", "https://via.placeholder.com/80");
+
+            const teachers = getTeachersData();
+            teachers.push({ name, subject, img });
+            saveTeachersData(teachers);
+            renderTeachers();
+        }
+
+        function getSchedule() {
+            const saved = localStorage.getItem('schedule_11it');
+            return saved ? JSON.parse(saved) : defaultSchedule;
+        }
+
+        function saveScheduleData(data) {
+            localStorage.setItem('schedule_11it', JSON.stringify(data));
+        }
+
+        function selectDay(day) {
+            currentDay = day;
+            document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
+            renderSchedule();
+        }
+
+        function renderSchedule() {
+            const data = getSchedule();
             const container = document.getElementById('schedule-container');
-            const data = scheduleData[day] || [];
-            container.innerHTML = data.map(item => `
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const list = data[currentDay] || [];
+
+            const filtered = list.filter(item => 
+                item.subject.toLowerCase().includes(search) || 
+                item.teacher.toLowerCase().includes(search) ||
+                item.room.toLowerCase().includes(search)
+            );
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding: 2rem; color: var(--text-muted);">Заняття не знайдені</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map((item, idx) => `
                 <div class="schedule-card">
                     <div class="time-box">
                         <div class="pair-num">${item.pair} пара</div>
@@ -147,10 +399,96 @@
                             <span>👤 ${item.teacher}</span>
                             <span>📍 ${item.room}</span>
                         </div>
+                        <div class="edit-controls">
+                            <button class="btn-sm btn-edit" onclick="editPair(${idx})">Редагувати</button>
+                            <button class="btn-sm btn-danger" onclick="deletePair(${idx})">Видалити</button>
+                        </div>
                     </div>
                     <span class="badge ${item.badgeClass}">${item.type}</span>
                 </div>
             `).join('');
+        }
+
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            document.body.classList.toggle('is-editing', isEditMode);
+            renderSchedule();
+            renderTeachers();
+        }
+
+        function editPair(idx) {
+            const data = getSchedule();
+            const item = data[currentDay][idx];
+            const newSubj = prompt("Назва предмета:", item.subject);
+            if (newSubj === null) return;
+            const newTeach = prompt("Викладач:", item.teacher);
+            const newRoom = prompt("Кабінет/Корпус:", item.room);
+
+            data[currentDay][idx].subject = newSubj || item.subject;
+            data[currentDay][idx].teacher = newTeach || item.teacher;
+            data[currentDay][idx].room = newRoom || item.room;
+
+            saveScheduleData(data);
+            renderSchedule();
+        }
+
+        function deletePair(idx) {
+            if (confirm("Видалити цю пару з розкладу?")) {
+                const data = getSchedule();
+                data[currentDay].splice(idx, 1);
+                saveScheduleData(data);
+                renderSchedule();
+            }
+        }
+
+        function addNewPair() {
+            const data = getSchedule();
+            const num = (data[currentDay].length + 1);
+            data[currentDay].push({
+                pair: num,
+                time: "08:30 - 09:50",
+                subject: "Нова пара",
+                teacher: "Викладач",
+                room: "Дубенська",
+                type: "Лекція",
+                badgeClass: "badge-lec"
+            });
+            saveScheduleData(data);
+            renderSchedule();
+        }
+
+        function resetToDefault() {
+            if (confirm("Скинути розклад та викладачів до початкового стану?")) {
+                localStorage.removeItem('schedule_11it');
+                localStorage.removeItem('teachers_11it');
+                renderTeachers();
+                renderSchedule();
+            }
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const hrs = now.getHours();
+            const mins = now.getMinutes();
+            const timeVal = hrs * 60 + mins;
+
+            const timerElem = document.getElementById('live-timer');
+            
+            const p1Start = 8 * 60 + 30, p1End = 9 * 60 + 50;
+            const p2Start = 10 * 60, p2End = 11 * 60 + 20;
+            const p3Start = 11 * 60 + 30, p3End = 12 * 60 + 50;
+
+            if (timeVal >= p1Start && timeVal <= p1End) {
+                timerElem.innerHTML = `🟢 Зараз іде <strong>1 пара</strong> (до кінця: ${p1End - timeVal} хв)`;
+            } else if (timeVal >= p2Start && timeVal <= p2End) {
+                timerElem.innerHTML = `🟢 Зараз іде <strong>2 пара</strong> (до кінця: ${p2End - timeVal} хв)`;
+            } else if (timeVal >= p3Start && timeVal <= p3End) {
+                timerElem.innerHTML = `🟢 Зараз іде <strong>3 пара</strong> (до кінця: ${p3End - timeVal} хв)`;
+            } else if (timeVal < p1Start) {
+                timerElem.innerHTML = `🔔 До початку 1 пари залишилося ${p1Start - timeVal} хв`;
+            } else {
+                timerElem.innerHTML = `⏸️ Пари на сьогодні завершилися`;
+            }
         }
 
         function toggleTheme() {
@@ -158,7 +496,13 @@
             document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
         }
 
-        showDay('sat');
+        const dayMap = ['sat', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+        const todayIdx = new Date().getDay();
+        selectDay(dayMap[todayIdx]);
+        renderTeachers();
+
+        setInterval(updateTimer, 10000);
+        updateTimer();
     </script>
 </body>
 </html>
