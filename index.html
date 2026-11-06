@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Група 11-ІТ — ВСП «РФК НУБіП України»</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e4d2b;
+            --primary-light: #2e7d32;
+            --accent: #f59e0b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --badge-lec: #e0f2fe;
+            --badge-lec-text: #0369a1;
+            --badge-lab: #dcfce7;
+            --badge-lab-text: #15803d;
+            --badge-prac: #fef3c7;
+            --badge-prac-text: #b45309;
+        }
+
+        [data-theme="dark"] {
+            --primary: #2e7d32;
+            --primary-light: #4caf50;
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #334155;
+            --badge-lec: #1e3a8a;
+            --badge-lec-text: #93c5fd;
+            --badge-lab: #14532d;
+            --badge-lab-text: #86efac;
+            --badge-prac: #78350f;
+            --badge-prac-text: #fde047;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.5; padding-bottom: 2rem; transition: background-color 0.3s; }
+        header { background: linear-gradient(135deg, var(--primary), #111827); color: white; padding: 2rem 1rem; text-align: center; position: relative; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        header h1 { font-size: 1.7rem; font-weight: 700; margin-bottom: 0.25rem; }
+        header p { font-size: 0.95rem; opacity: 0.9; }
+        .theme-toggle { position: absolute; top: 1rem; right: 1rem; background: rgba(255, 255, 255, 0.15); border: none; color: white; padding: 0.5rem 0.8rem; border-radius: 20px; cursor: pointer; font-size: 0.85rem; }
+        .container { max-width: 900px; margin: 0 auto; padding: 1rem; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+        @media(max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+        .info-card { background: var(--bg-card); border-left: 4px solid var(--primary-light); padding: 1rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-size: 0.9rem; }
+        .info-card h3 { font-size: 0.95rem; margin-bottom: 0.3rem; color: var(--primary-light); }
+        .day-buttons { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+        .day-btn { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; font-weight: 500; white-space: nowrap; }
+        .day-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .schedule-card { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 1rem; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: grid; grid-template-columns: 90px 1fr auto; gap: 1rem; align-items: center; }
+        @media (max-width: 600px) { .schedule-card { grid-template-columns: 1fr; } }
+        .time-box { text-align: center; border-right: 2px solid var(--border-color); padding-right: 0.75rem; }
+        @media (max-width: 600px) { .time-box { border-right: none; border-bottom: 1px solid var(--border-color); text-align: left; padding-bottom: 0.5rem; display: flex; justify-content: space-between; } }
+        .pair-num { font-size: 1.1rem; font-weight: 700; color: var(--primary-light); }
+        .pair-time { font-size: 0.75rem; color: var(--text-muted); }
+        .subject-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .details { font-size: 0.85rem; color: var(--text-muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+        .badge { font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; height: fit-content; }
+        .badge-lec { background: var(--badge-lec); color: var(--badge-lec-text); }
+        .badge-lab { background: var(--badge-lab); color: var(--badge-lab-text); }
+        .badge-prac { background: var(--badge-prac); color: var(--badge-prac-text); }
+        .footer-links { margin-top: 2rem; display: flex; justify-content: center; gap: 1.5rem; font-size: 0.9rem; }
+        .footer-links a { color: var(--primary-light); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        <h1>Група 11-ІТ — Комп'ютерні науки</h1>
+        <p>ВСП «Рівненський фаховий коледж НУБіП України»</p>
+    </header>
+
+    <div class="container">
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>📍 Локація</h3>
+                <p>Навчальний корпус на вул. Дубенській, м. Рівне</p>
+            </div>
+            <div class="info-card">
+                <h3>🔔 Розклад дзвінків (І зміна)</h3>
+                <p>І пара: 08:30 – 09:50<br>ІІ пара: 10:00 – 11:20<br>ІІІ пара: 11:30 – 12:50</p>
+            </div>
+        </div>
+
+        <div class="day-buttons">
+            <button class="day-btn" onclick="showDay('mon')">Пн</button>
+            <button class="day-btn" onclick="showDay('tue')">Вт</button>
+            <button class="day-btn" onclick="showDay('wed')">Ср</button>
+            <button class="day-btn" onclick="showDay('thu')">Чт</button>
+            <button class="day-btn" onclick="showDay('fri')">Пт</button>
+            <button class="day-btn active" onclick="showDay('sat')">Субота</button>
+        </div>
+
+        <div id="schedule-container"></div>
+
+        <div class="footer-links">
+            <a href="https://rfc.nubip.edu.ua/" target="_blank">Офіційний сайт РФК НУБіП</a>
+            <a href="https://rfc.nubip.edu.ua/to-a-student/lessons-schedule/" target="_blank">Сторінка розкладу коледжу</a>
+        </div>
+    </div>
+
+    <script>
+        const scheduleData = {
+            sat: [
+                { pair: 1, time: "08:30 - 09:50", subject: "Історія України (заміна)", teacher: "Згідно розкладу", room: "вул. Дубенська", type: "Лекція", badgeClass: "badge-lec" },
+                { pair: 2, time: "10:00 - 11:20", subject: "Інформатика (заміна)", teacher: "Викладач комісії ІТ", room: "Комп. кабінет", type: "Лабораторна", badgeClass: "badge-lab" }
+            ],
+            mon: [
+                { pair: 1, time: "08:30 - 09:50", subject: "Вища математика", teacher: "Згідно розкладу", room: "вул. Дубенська", type: "Практична", badgeClass: "badge-prac" },
+                { pair: 2, time: "10:00 - 11:20", subject: "Українська мова", teacher: "Згідно розкладу", room: "вул. Дубенська", type: "Лекція", badgeClass: "badge-lec" }
+            ],
+            tue: [
+                { pair: 1, time: "08:30 - 09:50", subject: "Фізика / Астрономія", teacher: "Згідно розкладу", room: "вул. Дубенська", type: "Лекція", badgeClass: "badge-lec" }
+            ],
+            wed: [
+                { pair: 1, time: "08:30 - 09:50", subject: "Основи програмування", teacher: "Циклова комісія", room: "вул. Дубенська", type: "Лабораторна", badgeClass: "badge-lab" }
+            ],
+            thu: [
+                { pair: 1, time: "08:30 - 09:50", subject: "Іноземна мова", teacher: "Згідно розкладу", room: "вул. Дубенська", type: "Практична", badgeClass: "badge-prac" }
+            ],
+            fri: [
+                { pair: 1, time: "08:30 - 09:50", subject: "Фізичне виховання", teacher: "Викладач", room: "Спортзал / Дубенська", type: "Практична", badgeClass: "badge-prac" }
+            ]
+        };
+
+        function showDay(day) {
+            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const container = document.getElementById('schedule-container');
+            const data = scheduleData[day] || [];
+            container.innerHTML = data.map(item => `
+                <div class="schedule-card">
+                    <div class="time-box">
+                        <div class="pair-num">${item.pair} пара</div>
+                        <div class="pair-time">${item.time}</div>
+                    </div>
+                    <div>
+                        <div class="subject-title">${item.subject}</div>
+                        <div class="details">
+                            <span>👤 ${item.teacher}</span>
+                            <span>📍 ${item.room}</span>
+                        </div>
+                    </div>
+                    <span class="badge ${item.badgeClass}">${item.type}</span>
+                </div>
+            `).join('');
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        }
+
+        showDay('sat');
+    </script>
+</body>
+</html>
